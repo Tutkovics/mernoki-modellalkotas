@@ -1,10 +1,11 @@
 import networkx as nx
 
 class Trie:
-    def __init__(self, label = "", stripe = 1):
+    def __init__(self, label = "", stride = 1):
         self.label = label
         self.full_prefix = ""
         self.children = {}
+        self.stridev = stride
     
     def __str__(self):
         return "{}\n{} --> {}".format(id(self), self.full_prefix, self.label)
@@ -17,11 +18,11 @@ class Trie:
 
         remain_prefix = prefix
         # if len(prefix) == 1:
-        children = self.children.get(remain_prefix[0], None)
+        children = self.children.get(remain_prefix[0:int(self.stridev)], None)
         if children == None:
-            self.children[remain_prefix[0]] = Trie("" )
-            children = self.children[remain_prefix[0]]
-        children.insert(remain_prefix[1:], label, full_prefix)
+            self.children[remain_prefix[0:self.stridev]] = Trie("" )
+            children = self.children[remain_prefix[0:self.stridev]]
+        children.insert(remain_prefix[self.stridev:], label, full_prefix)
             
     
     def print(self, deep):
@@ -36,7 +37,7 @@ class Trie:
     def plot(self, graph, nodelabel):
         for i in self.children.keys():
             nodelabel[id(self.children[i])] = self.children[i].label
-            print("Label:" + str(self.label) )
+            # print("Label:" + str(self.label) )
             graph.add_edge(id(self), id(self.children[i]), prefix=i)
             self.children[i].plot(graph, nodelabel)
 
@@ -77,7 +78,10 @@ class Trie:
                     minimum["value"] = summ
             
             return minimum
-        
+
+    # def level_compress(self):
+    #     k = self.stride()["k"]
+    #     root = Trie("",k)
 
 
 

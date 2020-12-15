@@ -24,8 +24,8 @@ class IP_table:
             print("|{:>2}|{:>10}|{:>5}|".format(str(row.id), str(row.prefix), str(row.label)))
         print("|{:>2}|{:>10}|{:>5}|".format("-"*2, "-"*10, "-"*5))
 
-    def create_tree(self):
-        root = Trie("-")
+    def create_tree(self, k = 1):
+        root = Trie("-", k)
         for row in self.rows:
             root.insert(row.prefix, row.label, row.prefix)
 
