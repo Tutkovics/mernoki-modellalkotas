@@ -1,0 +1,4 @@
+IP forgalomtovábbítás: Szinttömörítés
+link: https://classroom.google.com/u/0/c/MTQ4MTUwOTgwMTM0/a/MTQ4MTUwOTgwMjE2/details
+
+Adott IP-tábla esetén oldja meg a Kitekintésben szereplő szintömörítési problémát. Pontosabban adjunk algoritmust, ami az IP-táblához megmondja, hogy szinttömörítés esetén minimálisan hány él lesz a megoldásban. Extra "dicséretért" a kész fát is megadhatjuk.
