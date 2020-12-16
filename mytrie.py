@@ -40,6 +40,47 @@ class Trie:
             if self.children[i].print(deep + 1):
                 print("\t" * deep + str(i) + " --> " + self.children[i].label)
 
+    def info(self):
+        print("|{:>4}|{:>10}|{:>5}|{:>5}|".format("ID", "Prefix", "Label", "Stride"))
+        self.export_print()
+        print("Edge (pointer) number: {}".format(self.get_edges()))
+        print("Node number: {}".format(self.get_nodes()))
+        print("Label number: {}".format(self.get_labels()))
+
+    def get_edges(self):
+        if len(self.children) == 0:
+            return 0
+        else:
+            edge = len(self.children)
+
+            for i in self.children.keys():
+                edge += self.children[i].get_edges()
+            return edge
+
+    def get_nodes(self):
+        if len(self.children) == 0:
+            return 1
+        else:
+            nodes = 1
+            for i in self.children.keys():
+                nodes += self.children[i].get_nodes()
+            return nodes
+
+    def get_labels(self):
+        if len(self.children) == 0:
+            if self.label == "":
+                return 0
+            else:
+                return 1
+        else:
+            labels = 0
+            if self.label != "":
+                labels = 1
+
+            for i in self.children.keys():
+                labels += self.children[i].get_labels()
+            return labels
+
     def plot(self, graph, nodelabel):
         for i in self.children.keys():
             nodelabel[id(self.children[i])] = self.children[i].label
@@ -110,33 +151,34 @@ class Trie:
         rows = self.export()
 
         for node in rows:
-            print("|{:>2}|{:>10}|{:>5}|{:>5}|".format(str(node.id), str(node.prefix), str(node.label), str(node.stride)))
+            print(
+                "|{:>2}|{:>10}|{:>5}|{:>5}|".format(str(node.id), str(node.prefix), str(node.label), str(node.stride)))
 
         sum_stride = rows[0].stride
         root = Trie(full_prefix=rows[0].prefix, label=rows[0].label, stride=rows[0].stride)
 
         print("#1len: " + str(len(rows)))
         while True:
+            add_stide = 1
             for row in rows:
                 if row.label == "":
                     rows.remove(row)
-
                 elif len(row.prefix) <= sum_stride:
                     root.insert(row.prefix, row.label, row.prefix)
+
+                    if row.stride != 1:
+                        add_stide = row.stride
+
                     rows.remove(row)
 
             print("#len: " + str(len(rows)))
-            sum_stride += 1
+            sum_stride += add_stide
             if len(rows) == 0:
                 break
-
 
         root.export_print()
 
         return root
-
-
-
 
     # def level_compress(self):
     #     k = self.stride()["k"]

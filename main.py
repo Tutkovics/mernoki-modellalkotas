@@ -50,6 +50,8 @@ print_title("Compress tree")
 root_old = table.create_tree(2)
 
 root = tree.compress()
+print_title("Get Info from compressed tree")
+root.info()
 
 G = nx.Graph()
 nodelabel = {}
@@ -59,3 +61,5 @@ nx.draw(G, pos, labels=nodelabel, font_size=10, with_labels=True)
 edge_labels = nx.get_edge_attributes(G, 'prefix')
 nx.draw_networkx_edge_labels(G, pos, edge_labels, font_size=8)
 plt.show()
+
+
